@@ -3,15 +3,18 @@ import pygame
 
 pygame.init()
 
-from surface import Surface
-from surface import create_dashboard
+from cell import initialize_dashboard
 
-surface = pygame.display.set_mode( (  795, 795) )
+surface = pygame.display.set_mode( ( 800, 800) )
 pygame.display.set_caption('Othello')
 
 clock = pygame.time.Clock()
 
-surfaces = create_dashboard()
+dasboard = initialize_dashboard()
+
+cells = pygame.sprite.Group()
+cells.add(dasboard)
+
 
 while True:
     
@@ -25,10 +28,10 @@ while True:
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
 
-            for s in surfaces:
-                if s.rect.collidepoint(pos):
-                    s.draw_circle()
+            for cell in cells:
+                if cell.rect.collidepoint(pos) and not cell.token:
+                    cell.check(event.button == 1)
 
 
-    surfaces.draw(surface)
+    cells.draw(surface)
     pygame.display.update()
