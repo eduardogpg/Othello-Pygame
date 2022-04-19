@@ -10,10 +10,10 @@ pygame.display.set_caption('Othello')
 
 clock = pygame.time.Clock()
 
-dasboard = initialize_dashboard()
+dashboard = initialize_dashboard()
 
 cells = pygame.sprite.Group()
-cells.add(dasboard)
+cells.add(dashboard)
 
 
 while True:
@@ -30,8 +30,8 @@ while True:
 
             for cell in cells:
                 if cell.rect.collidepoint(pos) and not cell.token:
-                    cell.check(event.button == 1)
-
+                    cell.check_box(event.button == 1)
+                    
 
     cells.draw(surface)
     pygame.display.update()

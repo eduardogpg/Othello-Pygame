@@ -8,11 +8,13 @@ from colors import BLACK
 def initialize_dashboard():
     dashboard = create_dashboard()
     
+    """
     dashboard[3][3].check(False)
     dashboard[3][4].check(True)
     
     dashboard[4][3].check(True)
     dashboard[4][4].check(False)
+    """
     
     return dashboard
 
@@ -54,16 +56,24 @@ class Cell(pygame.sprite.Sprite):
         self.rect.y = pos_y * self.height
     
     
-    def check(self, player1=True):
+    def check_box(self, player1=True):
         self.player1 = player1
-        self.set_token()
-
-
-    def set_token(self):
-        self.token = True
+        self.check()
         
-        pos =  (self.width // 2, self.height // 2)
-        pygame.draw.circle(self.image, self.color, pos, 40)
+
+    def validate_neighbours(self, dashboard):
+        pass
+    
+    
+    def check_neighbours(self, dashboard, player1, pos_x, pos_y, _x, _y):
+        pass
+
+
+    def check(self):
+        self.token = True
+        pygame.draw.circle(self.image, self.color, (self.width // 2, self.height // 2), 40)
+        
+        return self.token
         
     
     @property
@@ -72,4 +82,7 @@ class Cell(pygame.sprite.Sprite):
             return WHITE
 
         return BLACK
-        
+    
+    
+    def __str__(self):
+        return f'({self.pos_x}-{self.pos_y})'
