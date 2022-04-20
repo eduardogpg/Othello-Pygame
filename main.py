@@ -15,7 +15,6 @@ dashboard = initialize_dashboard()
 cells = pygame.sprite.Group()
 cells.add(dashboard)
 
-
 while True:
     
     clock.tick(60)
@@ -30,7 +29,9 @@ while True:
 
             for cell in cells:
                 if cell.rect.collidepoint(pos) and not cell.token:
+                    
                     cell.check_box(event.button == 1)
+                    cell.validate_neighbours(dashboard)
                     
 
     cells.draw(surface)

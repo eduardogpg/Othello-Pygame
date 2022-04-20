@@ -62,11 +62,30 @@ class Cell(pygame.sprite.Sprite):
         
 
     def validate_neighbours(self, dashboard):
-        pass
-    
-    
+        for x in range(-1, 2):
+            for y in range(-1, 2):
+                self.check_neighbours(dashboard, self.player1, self.pos_x, self.pos_y, x, y)
+
+
     def check_neighbours(self, dashboard, player1, pos_x, pos_y, _x, _y):
-        pass
+        pos_x, pos_y = pos_x + _x, pos_y + _y
+        
+        validate = lambda pos_x, pos_y: (pos_x < 0 or pos_x > 7) or (pos_y < 0 or pos_y > 7)
+        
+        if validate(pos_x, pos_y):
+            return None
+        
+        cell = dashboard[pos_x][pos_y]
+        if cell.token:
+            if cell.player1 == player1:
+                return True
+            
+            if cell.check_neighbours(dashboard, player1, pos_x, pos_y, _x, _y):
+                cell.check_box(player1)
+                return True
+        
+        return None
+    
 
 
     def check(self):
