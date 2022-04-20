@@ -44,16 +44,18 @@ while True:
             for cell in cells:
                 
                 if cell.rect.collidepoint( (pos[0], pos[1] - 50)) and not cell.token:
-                    cell.check_box(turn_player1)
-                    cell.validate_neighbours(dashboard)
                     
-                    turn_player1 = not turn_player1
+                    if cell.neighbours(dashboard):
+                        
+                        cell.check_box(turn_player1)
+                        cell.validate_neighbours(dashboard)
+                        
+                        player1_tokens = sum([ 1 for cell in cells if cell.token and cell.player1 ])
+                        player2_tokens = sum([ 1 for cell in cells if cell.token and not cell.player1 ])
+                        
+                        turn_player1 = not turn_player1
                     
-                    player1_tokens = sum([ 1 for cell in cells if cell.token and cell.player1 ])
-                    player2_tokens = sum([ 1 for cell in cells if cell.token and not cell.player1 ])
-                    
-    
-    
+        
     menu.fill(BLACK)
     
     text1 = font.render(f'Blancas: {player1_tokens}', True, WHITE)

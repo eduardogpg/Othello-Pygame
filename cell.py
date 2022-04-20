@@ -53,8 +53,8 @@ class Cell(pygame.sprite.Sprite):
     
     def check_box(self, player1=True):
         self.player1 = player1
-        self.check()
-        
+        self.__check()
+
 
     def validate_neighbours(self, dashboard):
         for x in range(-1, 2):
@@ -63,34 +63,38 @@ class Cell(pygame.sprite.Sprite):
 
 
     def check_neighbours(self, dashboard, player1, pos_x, pos_y, _x, _y):
-        pos_x = pos_x + _x
-        pos_y = pos_y + _y
-        
-        validate = lambda pos_x, pos_y: (pos_x < 0 or pos_x > 7) or (pos_y < 0 or pos_y > 7)
-        
-        if validate(pos_x, pos_y):
+        try:
+            pos_x = pos_x + _x
+            pos_y = pos_y + _y
+            
+            cell = dashboard[pos_x][pos_y]
+            if cell.token:
+                
+                if cell.player1 == player1:
+                    return True
+                
+                if cell.check_neighbours(dashboard, player1, pos_x, pos_y, _x, _y):
+                    cell.check_box(player1)
+                    return True
+            
             return None
         
-        cell = dashboard[pos_x][pos_y]
-        if cell.token:
-            if cell.player1 == player1:
-                return True
-            
-            if cell.check_neighbours(dashboard, player1, pos_x, pos_y, _x, _y):
-                cell.check_box(player1)
-                return True
-        
-        return None
+        except Exception as err:
+            return None
     
-
-
-    def check(self):
-        self.token = True
-        pygame.draw.circle(self.image, self.color, (self.width // 2, self.height // 2), 40)
-        
-        return self.token
-        
     
+    def neighbours(self, cells):
+        neighborhoods = list()
+        
+        for x in range(self.pos_x - 1, self.pos_x + 2):
+            for y in range(self.pos_y - 1, self.pos_y + 2):
+               
+                cell = cells[x][y]
+                if (x >= 0 and y >= 0) and (x < len(cells) and y < len(cells[0])) and cell.token:
+                    neighborhoods.append(cells[x][y]) 
+
+        return neighborhoods
+
     @property
     def color(self):
         if self.player1:
@@ -99,5 +103,10 @@ class Cell(pygame.sprite.Sprite):
         return BLACK
     
     
+    def __check(self):
+        self.token = True
+        pygame.draw.circle(self.image, self.color, (self.width // 2, self.height // 2), 40)
+
+
     def __str__(self):
         return f'({self.pos_x}-{self.pos_y})'
