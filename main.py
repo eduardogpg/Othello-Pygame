@@ -44,11 +44,10 @@ while True:
             for cell in cells:
                 
                 if cell.rect.collidepoint( (pos[0], pos[1] - 50)) and not cell.token:
-                    
-                    if cell.neighbours(dashboard):
+                    if cell.neighborhoods(dashboard):
                         
                         cell.check_box(turn_player1)
-                        cell.validate_neighbours(dashboard)
+                        cell.validate_neighborhoods(dashboard)
                         
                         player1_tokens = sum([ 1 for cell in cells if cell.token and cell.player1 ])
                         player2_tokens = sum([ 1 for cell in cells if cell.token and not cell.player1 ])

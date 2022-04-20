@@ -56,13 +56,13 @@ class Cell(pygame.sprite.Sprite):
         self.__check()
 
 
-    def validate_neighbours(self, dashboard):
+    def validate_neighborhoods(self, dashboard):
         for x in range(-1, 2):
             for y in range(-1, 2):
-                self.check_neighbours(dashboard, self.player1, self.pos_x, self.pos_y, x, y)
+                self.check_neighborhoods(dashboard, self.player1, self.pos_x, self.pos_y, x, y)
 
 
-    def check_neighbours(self, dashboard, player1, pos_x, pos_y, _x, _y):
+    def check_neighborhoods(self, dashboard, player1, pos_x, pos_y, _x, _y):
         try:
             pos_x = pos_x + _x
             pos_y = pos_y + _y
@@ -73,7 +73,7 @@ class Cell(pygame.sprite.Sprite):
                 if cell.player1 == player1:
                     return True
                 
-                if cell.check_neighbours(dashboard, player1, pos_x, pos_y, _x, _y):
+                if cell.check_neighborhoods(dashboard, player1, pos_x, pos_y, _x, _y):
                     cell.check_box(player1)
                     return True
             
@@ -83,7 +83,7 @@ class Cell(pygame.sprite.Sprite):
             return None
     
     
-    def neighbours(self, cells):
+    def neighborhoods(self, cells):
         neighborhoods = list()
         
         for x in range(self.pos_x - 1, self.pos_x + 2):
