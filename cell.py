@@ -1,20 +1,15 @@
 import pygame
 
-from colors import GREEN
-from colors import WHITE
-from colors import BLACK
-
+from colors import *
 
 def initialize_dashboard():
     dashboard = create_dashboard()
     
-    """
-    dashboard[3][3].check(False)
-    dashboard[3][4].check(True)
+    dashboard[3][3].check_box(False)
+    dashboard[3][4].check_box(True)
     
-    dashboard[4][3].check(True)
-    dashboard[4][4].check(False)
-    """
+    dashboard[4][3].check_box(True)
+    dashboard[4][4].check_box(False)
     
     return dashboard
 
@@ -68,7 +63,8 @@ class Cell(pygame.sprite.Sprite):
 
 
     def check_neighbours(self, dashboard, player1, pos_x, pos_y, _x, _y):
-        pos_x, pos_y = pos_x + _x, pos_y + _y
+        pos_x = pos_x + _x
+        pos_y = pos_y + _y
         
         validate = lambda pos_x, pos_y: (pos_x < 0 or pos_x > 7) or (pos_y < 0 or pos_y > 7)
         
